@@ -21,7 +21,9 @@ Therefore, overall the slow scan in better for you, and if you don't care too mu
 very simple - use the command line and give the argument for the kind of scanning you will to execute.
 
 artemis -s --> for slow scanning
+
 artemis -f -> for fast scanning
+
 artemis -h --> for help message
 
 
