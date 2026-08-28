@@ -22,7 +22,7 @@ very simple - use the command line and give the argument for the kind of scannin
 
 artemis -s --> for slow scanning
 
-artemis -f -> for fast scanning
+artemis -f --> for fast scanning
 
 artemis -h --> for help message
 
