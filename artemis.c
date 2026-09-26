@@ -19,16 +19,18 @@ to compile with gcc: gcc -o artemis.exe artemis.c -lws2_32
 #define ICMP_TYPE_CHAR_INDEX_IN_ICMP_PACKET 20
 #define IP_ADDRESS_LENGTH 4
 #define IP_ADDRESS_SOURCE_INDEX 12
-#define LONG_WAITING_TIME_FOR_RESPONSE 700
-#define SHORT_WAITING_TIME_FOR_RESPONSE 20
+#define EXTREMELY_SHORT_WAITING_TIME_FOR_RESPONSE 15
+#define SHORT_WAITING_TIME_FOR_RESPONSE 200
+#define LONG_WAITING_TIME_FOR_RESPONSE 600
+#define EXTREMELY_LONG_WAITING_TIME_FOR_RESPONSE 5000
 #define SLEEP_TIME 50
-#define ARGUMENTS_USAGE_MESSAGE "Use -f for fast scan.\nUse -s for slow scan.\nIf you do not understand the difference and can't choosr, use -h for help.\n\n"
+#define ARGUMENTS_USAGE_MESSAGE "Use -f for fast scan or -ff for extremely fast scan.\nUse -s for slow scan or -ss for extremely slow scan.\nIf you do not understand the difference and can't choose, use -h for help.\n\n"
 
 DWORD WaitingTimeForResponse;
 const char* Explanation = "\nThis tool is used for mapping all the endpoints in the LAN, using the ICMP protocol.\n"
 "The tool can execute either a fast scan or a slow scan:\n"
-"- A fast scan is obviously much faster than the slow scan, but is less safe in terms of security\nand seldom can miss a few existing IP addresses. To execute the fast scan, add the -f argument.\n"
-"- A slow scan will give a more accurate output and is safer because of the larger time breaks\nbetween each packet sent (it will be harder for security tools to detect it). To execute the slow scan, add the -s argument.\n\n"
+"- A fast scan is obviously much faster than the slow scan, but is less safe in terms of security\nand seldom can miss a few existing IP addresses.\n"
+"- A slow scan will give a more accurate output and is safer because of the larger time breaks\nbetween each packet sent (it will be harder for security tools to detect it).\n\n"
 "Overall, the slow scan is recommended because it's quieter and more accurate. Only if speed is an important matter, use the fast scan.\n\n";
 
 // creating a struct that defines the ICMP header (8 bytes).
@@ -388,11 +390,25 @@ int main(int argc, char *argv[])
             printf("Starting a fast scan:\n\n");
         }
 
+        // if -ff was given as argument, define the scanning as extremely fast scan.
+        else if (strcmp((argv[1]), "-ff")==0)
+        {
+            WaitingTimeForResponse = EXTREMELY_SHORT_WAITING_TIME_FOR_RESPONSE;
+            printf("starting an extremely fast scan:\n\n");
+        }
+
         // if -s was given as argument, define the scanning as slow scan.
         else if (strcmp((argv[1]), "-s")==0)
         {
             WaitingTimeForResponse = LONG_WAITING_TIME_FOR_RESPONSE;
             printf("starting a slow scan:\n\n");
+        }
+
+        // if -ss was given as argument, define the scanning as extremely slow scan.
+        else if (strcmp((argv[1]), "-ss")==0)
+        {
+            WaitingTimeForResponse = EXTREMELY_LONG_WAITING_TIME_FOR_RESPONSE;
+            printf("starting an extremely slow scan:\n\n");
         }
 
         // if -h was given as argument, print the help message.
