@@ -27,7 +27,7 @@ to compile with gcc: gcc -o artemis.exe artemis.c -lws2_32
 #define ARGUMENTS_USAGE_MESSAGE "Use -f for fast scan or -ff for extremely fast scan.\nUse -s for slow scan or -ss for extremely slow scan.\nIf you do not understand the difference and can't choose, use -h for help.\n\n"
 
 DWORD WaitingTimeForResponse;
-const char* Explanation = "\nThis tool is used for mapping all the endpoints in the LAN, using the ICMP protocol.\n"
+const char* Explanation = "\nThis tool is used for mapping all the endpoints in the LAN (x.x.x.0/24), using the ICMP protocol.\n"
 "The tool can execute either a fast scan or a slow scan:\n"
 "- A fast scan is obviously much faster than the slow scan, but is less safe in terms of security\nand seldom can miss a few existing IP addresses.\n"
 "- A slow scan will give a more accurate output and is safer because of the larger time breaks\nbetween each packet sent (it will be harder for security tools to detect it).\n\n"
@@ -415,6 +415,7 @@ int main(int argc, char *argv[])
         else if (strcmp((argv[1]), "-h")==0)
         {
             printf(Explanation);
+            printf("\n%s", ARGUMENTS_USAGE_MESSAGE);
             exit(1);
         }
 
